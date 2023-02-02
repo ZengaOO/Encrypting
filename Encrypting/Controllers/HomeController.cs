@@ -34,7 +34,7 @@ namespace Encrypting.Controllers
             var encrypted = await encryptionService.EncryptAsync("We use encryption to obscure a piece of information.",
                                                                  enteredText);
                         
-            var result = BitConverter.ToString(encrypted);
+            var result = BitConverter.ToString(encrypted).Replace("-",string.Empty);
             var model = new ContractModel() { Name = result };
             await _repository.SaveEncriptTextToDatabaseAsync(model);
 
