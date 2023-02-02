@@ -52,7 +52,7 @@ namespace Encrypting.Services
             aes.Key = DeriveKeyFromPassword(enteredText);
             aes.IV = IV;
 
-            using MemoryStream input = new(encrypted);
+            using MemoryStream input = new();
             using CryptoStream cryptoStream = new(input, aes.CreateDecryptor(), CryptoStreamMode.Read);
 
             using MemoryStream output = new();
