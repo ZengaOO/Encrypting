@@ -30,7 +30,6 @@ namespace Encrypting.Controllers
         public async Task<IActionResult> EncryptText(string enteredText)
         
         {
-            
             var encryptionService = new EncryptService();
             var encrypted = await encryptionService.EncryptAsync("We use encryption to obscure a piece of information.",
                                                                  enteredText);
@@ -38,13 +37,12 @@ namespace Encrypting.Controllers
             var result = BitConverter.ToString(encrypted);
             var model = new ContractModel() { Name = result };
             await _repository.SaveEncriptTextToDatabaseAsync(model);
-            return Ok();
-           
-        }
 
+            var decrypted = await encryptionService.DecryptAsync(encrypted, enteredText) ;
+            
+            return Ok(decrypted);
+        }
         
         
     }
-
-   
 }
