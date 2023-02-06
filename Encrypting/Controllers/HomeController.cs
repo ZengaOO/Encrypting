@@ -27,22 +27,36 @@ namespace Encrypting.Controllers
 
        
         [HttpPost]
-        public async Task<IActionResult> EncryptText(string enteredText)
+        public async Task<IActionResult> EncryptText(string clearText, string enteredText)
         
         {
             var encryptionService = new EncryptService();
-            var encrypted = await encryptionService.EncryptAsync("We use encryption to obscure a piece of information.",
-                                                                 enteredText);
-                        
+            var encrypted = await encryptionService.EncryptAsync(//"We use encryption to obscure a piece of information.",
+                                                                 clearText, enteredText);
+
             var result = BitConverter.ToString(encrypted).Replace("-",string.Empty);
+           //var result = Convert.ToHexString(Byte[]).
             var model = new ContractModel() { Name = result };
             await _repository.SaveEncriptTextToDatabaseAsync(model);
 
-            var decrypted = await encryptionService.DecryptAsync(encrypted, enteredText) ;
+            //var decrypted = await encryptionService.DecryptAsync(encrypted, enteredText) ;
             
+            return Ok(encrypted);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DecryptAsync([FromQuery] byte[] encrypted, string enteredText)
+        {
+            var encryptionService = new EncryptService();
+            var decrypted = await encryptionService.DecryptAsync(encrypted, enteredText);
+
+            //var result = BitConverter.ToString(encrypted);
+      
+            //var model = new ContractModel() { Name = result };
+            //await _repository.SaveEncriptTextToDatabaseAsync(model);
+
+
             return Ok(decrypted);
         }
-        
-        
     }
 }

@@ -10,7 +10,7 @@ namespace Encrypting.Data
          : base(options)
         {
         }
-       public DbSet<ContractModel> ContractModels { get; set; }
+        public DbSet<ContractModel> ContractModels { get; set; }
 
 
     }

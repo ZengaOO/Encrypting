@@ -1,7 +1,6 @@
 ﻿using Encrypting.Data;
 using Encrypting.Models;
 using Encrypting.Repositories.Interfases;
-//using Encrypting.Repositories.Interfases;
 using Encrypting.Services;
 using Microsoft.AspNetCore.Mvc;
 
