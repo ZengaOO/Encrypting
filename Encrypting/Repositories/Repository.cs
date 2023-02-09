@@ -16,18 +16,24 @@ namespace Encrypting.Repository
             _db = db;
         }
 
-      
-        //public async Task<byte[]> EncryptAsync(ContractModel model)
-        //{
-        //    _db.ContractModels.Add(model);
-        //    await _db.SaveChangesAsync();
-          
-        //}
+
+        public async Task EncryptAsync(ContractModel model)
+        {
+            _db.ContractModels.Add(model);
+            await _db.SaveChangesAsync();
+
+        }
 
         public async Task SaveEncriptTextToDatabaseAsync(ContractModel model)
         {
-            _db.ContractModels.Add(model); 
+            _db.ContractModels.Add(model);
             await _db.SaveChangesAsync();
         }
+        //public async Task DecryptAsync(ContractModel model)
+        //{
+        //    _db.ContractModels.Add(model);
+        //    //await _db.SaveChangesAsync();
+
+        //}
     }
 }

@@ -8,12 +8,12 @@ namespace Encrypting.Services
 {
     public class EncryptService : IEncryptService
     {
-       
+        const string keyString = "1dhjY%";
 
-        public async Task<byte[]> EncryptAsync(string clearText, string enteredText)
+        public async Task<byte[]> EncryptAsync(string clearText)
         {
             using Aes aes = Aes.Create();
-            aes.Key = DeriveKeyFromPassword(enteredText);
+            aes.Key = Key(keyString);
             aes.IV = IV;
 
             using MemoryStream output = new();
@@ -25,8 +25,10 @@ namespace Encrypting.Services
             return output.ToArray();
         }
 
-        private byte[] DeriveKeyFromPassword(string password)
+        private byte[] Key(string password)
         {
+           // var key = "b14ca5898a4e4133bbce2ea2315a1916";
+
             var emptySalt = Array.Empty<byte>();
             var iterations = 1000;
             var desiredKeyLength = 16; // 16 bytes equal 128 bits.
@@ -46,10 +48,10 @@ namespace Encrypting.Services
             0x09, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16
         };
 
-        public async Task<string> DecryptAsync(byte[] encrypted, string enteredText)
+        public async Task<string> DecryptAsync(byte[] encrypted)
         {
             using Aes aes = Aes.Create();
-            aes.Key = DeriveKeyFromPassword(enteredText);
+            aes.Key = Key(keyString);
             aes.IV = IV;
 
             using MemoryStream input = new(encrypted);
@@ -61,7 +63,7 @@ namespace Encrypting.Services
             return Encoding.Unicode.GetString(output.ToArray());
         }
 
-        
+       
     }
 
 }

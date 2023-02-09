@@ -4,8 +4,8 @@ namespace Encrypting.Services
 {
     public interface IEncryptService
     {
-        Task<byte[]> EncryptAsync(string clearText, string enteredText);
+        Task<byte[]> EncryptAsync(string clearText);
        
-        Task<string> DecryptAsync(byte[] encrypted, string enteredText);
+        Task<string> DecryptAsync(byte[] encryptedText);
     }
 }

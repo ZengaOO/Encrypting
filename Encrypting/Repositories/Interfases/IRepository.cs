@@ -5,7 +5,8 @@ namespace Encrypting.Repositories.Interfases
     public interface IRepository
     {
 
-        // Task<byte[]> EncryptAsync(ContractModel model);
+         Task EncryptAsync(ContractModel model);
+        //Task DecryptAsync(ContractModel model);
          Task SaveEncriptTextToDatabaseAsync(ContractModel model);
     }
 }

@@ -4,13 +4,15 @@ using Encrypting.Repository;
 using Encrypting.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Text;
 using System.Xml.Linq;
 
 namespace Encrypting.Controllers
 {
-
-    [ApiController]
     [Route("[controller]")]
+    [ApiController]
+    
     public class HomeController : ControllerBase
     {
         private readonly IDataProtector _protector;
@@ -27,17 +29,17 @@ namespace Encrypting.Controllers
 
        
         [HttpPost]
-        public async Task<IActionResult> EncryptText(string clearText, string enteredText)
+        public async Task<IActionResult> EncryptText(string clearText)
         
         {
             var encryptionService = new EncryptService();
-            var encrypted = await encryptionService.EncryptAsync(//"We use encryption to obscure a piece of information.",
-                                                                 clearText, enteredText);
+            var encrypted = await encryptionService.EncryptAsync(clearText);
+
 
             var result = BitConverter.ToString(encrypted).Replace("-",string.Empty);
            //var result = Convert.ToHexString(Byte[]).
             var model = new ContractModel() { Name = result };
-            await _repository.SaveEncriptTextToDatabaseAsync(model);
+            await _repository.EncryptAsync(model);
 
             //var decrypted = await encryptionService.DecryptAsync(encrypted, enteredText) ;
             
@@ -45,15 +47,14 @@ namespace Encrypting.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DecryptAsync([FromQuery] byte[] encrypted, string enteredText)
+        public async Task<IActionResult>DecryptText([FromQuery]byte[] enteredText)
         {
             var encryptionService = new EncryptService();
-            var decrypted = await encryptionService.DecryptAsync(encrypted, enteredText);
+            var decrypted = await encryptionService.DecryptAsync(enteredText);
 
-            //var result = BitConverter.ToString(encrypted);
-      
-            //var model = new ContractModel() { Name = result };
-            //await _repository.SaveEncriptTextToDatabaseAsync(model);
+            //var result = BitConverter.ToString(decrypted);
+            //  var model = new ContractModel() { Name = result };
+            //await _repository.DecryptAsync(model);
 
 
             return Ok(decrypted);
